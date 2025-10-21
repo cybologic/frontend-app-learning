@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
@@ -12,6 +12,7 @@ import StreakModal from '../shared/streak-celebration';
 import InstructorToolbar from '../instructor-toolbar';
 import useEnrollmentAlert from '../alerts/enrollment-alert';
 import useLogistrationAlert from '../alerts/logistration-alert';
+import { injectGuidedProjectTab } from '../course-home/guided-project-tab/utils';
 
 import ProductTours from '../product-tours/ProductTours';
 
@@ -37,7 +38,13 @@ const LoadedTabPage = ({
   const logistrationAlert = useLogistrationAlert(courseId);
   const enrollmentAlert = useEnrollmentAlert(courseId);
 
-  const activeTab = tabs.filter(tab => tab.slug === activeTabSlug)[0];
+  // Inject Guided Project tab into tabs array
+  const tabsWithGuidedProject = useMemo(
+    () => injectGuidedProjectTab(tabs, courseId),
+    [tabs, courseId]
+  );
+
+  const activeTab = tabsWithGuidedProject.filter(tab => tab.slug === activeTabSlug)[0];
 
   const streakLengthToCelebrate = celebrations && celebrations.streakLengthToCelebrate;
   const streakDiscountCouponEnabled = celebrations && celebrations.streakDiscountEnabled && verifiedMode;
@@ -80,7 +87,7 @@ const LoadedTabPage = ({
             ...logistrationAlert,
           }}
         />
-        <CourseTabsNavigation tabs={tabs} className="mb-3" activeTabSlug={activeTabSlug} />
+        <CourseTabsNavigation tabs={tabsWithGuidedProject} className="mb-3" activeTabSlug={activeTabSlug} />
         <div id="main-content" className="container-xl">
           {children}
         </div>

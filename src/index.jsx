@@ -23,9 +23,10 @@ import CoursewareRedirectLandingPage from './courseware/CoursewareRedirectLandin
 import DatesTab from './course-home/dates-tab';
 import GoalUnsubscribe from './course-home/goal-unsubscribe';
 import ProgressTab from './course-home/progress-tab/ProgressTab';
+import GuidedProjectTab from './course-home/guided-project-tab';
 import { TabContainer } from './tab-page';
 
-import { fetchDatesTab, fetchOutlineTab, fetchProgressTab } from './course-home/data';
+import { fetchDatesTab, fetchOutlineTab, fetchProgressTab, fetchGuidedProjectTab } from './course-home/data';
 import { fetchCourse } from './courseware/data';
 import { store } from './store';
 import NoticesProvider from './generic/notices';
@@ -122,6 +123,16 @@ subscribe(APP_READY, () => {
                       )}
                     />
                   ))}
+                  <Route
+                    path={DECODE_ROUTES.GUIDED_PROJECT}
+                    element={(
+                      <DecodePageRoute>
+                        <TabContainer tab="guided_project" fetch={fetchGuidedProjectTab} slice="courseHome">
+                          <GuidedProjectTab />
+                        </TabContainer>
+                      </DecodePageRoute>
+                    )}
+                  />
                   <Route
                     path={DECODE_ROUTES.COURSE_END}
                     element={(

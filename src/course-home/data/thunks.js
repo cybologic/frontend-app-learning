@@ -101,6 +101,12 @@ export function fetchLiveTab(courseId) {
   return fetchTab(courseId, 'live', getLiveTabIframe);
 }
 
+export function fetchGuidedProjectTab(courseId) {
+  // For now, this just fetches the course metadata
+  // When backend is ready, add getGuidedProjectTabData as second parameter
+  return fetchTab(courseId, 'guided_project', null);
+}
+
 export function fetchDiscussionTab(courseId) {
   return fetchTab(courseId, 'discussion');
 }
